@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "942886347816",
+    "project_id": "fix-my-bike-803f9",
+    "storage_bucket": "fix-my-bike-803f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942886347816:android:7e22c0500f26f573ce811d",
+        "android_client_info": {
+          "package_name": "com.fix_my_bike"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942886347816-a04svlm1f43d91vsi76ogr6fhvo5pl1d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fix_my_bike",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "942886347816-2bl6f37r0ko3enu4j1t67j32is43qln3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwVSemyLpYdeNRdCpVg3ApZoTzNiBIU4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942886347816-2bl6f37r0ko3enu4j1t67j32is43qln3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
