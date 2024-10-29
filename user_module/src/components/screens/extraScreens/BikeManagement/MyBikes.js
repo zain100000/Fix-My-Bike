@@ -10,10 +10,11 @@ import {
   FlatList,
   RefreshControl,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {COLORS, FONTS} from '../../../constants/Constants';
 import BikeCard from '../../../utils/BikeCard/BikeCard';
 import CustomModal from '../../../utils/Modals/CustomModal';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 const {width} = Dimensions.get('window');
 
@@ -22,14 +23,47 @@ const MyBikes = () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
-  const navigation = useNavigation();
-  const colorScheme = useColorScheme();  
+  const colorScheme = useColorScheme();
+
+  const fetchBikes = async () => {
+    setLoading(true);
+    try {
+      const user = auth().currentUser;
+      if (user) {
+        const snapshot = await firestore()
+          .collection('user_bikes')
+          .where('userId', '==', user.uid)
+          .get();
+
+        const userBikes = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setBikes(userBikes);
+      }
+    } catch (error) {
+      console.log('Error fetching bikes:', error);
+      setShowErrorModal(true);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBikes();
+  }, []);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchBikes();
+  };
 
   const renderBikeItem = ({item}) => (
     <BikeCard
       bike={item}
       onDelete={bikeId => {
-        setBikes(prevBikes => prevBikes.filter(bike => bike._id !== bikeId));
+        setBikes(prevBikes => prevBikes.filter(bike => bike.id !== bikeId));
       }}
     />
   );
@@ -81,7 +115,7 @@ const MyBikes = () => {
         visible={showErrorModal}
         onClose={() => setShowErrorModal(false)}
         title="Error"
-        description="Error Fetching User Data. Please Try Again Later."
+        description="Error Fetching Bikes. Please Try Again Later."
         animationSource={require('../../../../assets/animations/error.json')}
       />
     </SafeAreaView>

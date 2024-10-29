@@ -14,13 +14,46 @@ import deleteAnimation from '../../../assets/animations/delete.json';
 import Feather from 'react-native-vector-icons/Feather';
 import {COLORS, FONTS} from '../../constants/Constants';
 import CustomModal from './CustomModal';
+import firestore from '@react-native-firebase/firestore';
 
 const {width, height} = Dimensions.get('window');
 
-const DeleteBikeModal = ({visible, title, description, onClose}) => {
+const DeleteBikeModal = ({
+  visible,
+  title,
+  description,
+  onClose,
+  onDelete,
+  bikeId,
+}) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const handleDeleteBike = async () => {
+    setLoading(true);
+
+    try {
+      await firestore().collection('user_bikes').doc(bikeId).delete();
+
+      setShowSuccessModal(true);
+
+      setTimeout(() => {
+        setShowSuccessModal(false);
+        onDelete(bikeId);
+        onClose();
+      }, 2000);
+    } catch (error) {
+      console.error('Error deleting bike:', error);
+      setShowErrorModal(true);
+
+      setTimeout(() => {
+        setShowErrorModal(false);
+      }, 2000);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Modal
@@ -124,8 +157,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: width * 0.9,
-    maxHeight: height * 0.7,
+    width: width * 0.92,
+    height: height * 0.48,
   },
 
   animation: {

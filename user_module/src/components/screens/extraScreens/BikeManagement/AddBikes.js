@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 import {COLORS, FONTS} from '../../../constants/Constants';
 import CustomModal from '../../../utils/Modals/CustomModal';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 const {width, height} = Dimensions.get('window');
 
@@ -63,9 +65,7 @@ const AddBikes = () => {
     setBikeModel(value);
     const modelPattern = /^[a-zA-Z0-9\s]+$/;
     if (!modelPattern.test(value)) {
-      setBikeModelError(
-        'Bike model should only contain alphanumeric characters.',
-      );
+      setBikeModelError('Only alphanumeric characters.');
     } else {
       setBikeModelError('');
     }
@@ -75,7 +75,7 @@ const AddBikes = () => {
     setBikeName(value);
     const namePattern = /^[a-zA-Z0-9\s]+$/;
     if (!namePattern.test(value)) {
-      setBikeNameError('Bike name should only contain alphabetic characters.');
+      setBikeNameError('Only alphanumeric characters.');
     } else {
       setBikeNameError('');
     }
@@ -85,9 +85,7 @@ const AddBikes = () => {
     setBikeCompanyName(value);
     const companyPattern = /^[a-zA-Z\s]+$/;
     if (!companyPattern.test(value)) {
-      setBikeCompanyNameError(
-        'Bike company name should only contain alphabetic characters.',
-      );
+      setBikeCompanyNameError('Only alphabetic characters.');
     } else {
       setBikeCompanyNameError('');
     }
@@ -97,9 +95,41 @@ const AddBikes = () => {
     setBikeRegNumber(value);
     const regNumberPattern = /^[A-Z]{2,3}[0-9]{3,4}$/;
     if (!regNumberPattern.test(value)) {
-      setBikeRegNumberError('Registration number should be in format ABC123.');
+      setBikeRegNumberError('Invalid Format');
     } else {
       setBikeRegNumberError('');
+    }
+  };
+
+  const handleAddBike = async () => {
+    setLoading(true);
+    try {
+      const user = auth().currentUser;
+      if (!user) {
+        throw new Error('No user is currently signed in');
+      }
+
+      await firestore().collection('user_bikes').add({
+        userId: user.uid,
+        bikeModel,
+        bikeName,
+        bikeCompanyName,
+        bikeRegNumber,
+      });
+
+      setShowSuccessModal(true);
+      setTimeout(() => {
+        setShowSuccessModal(false);
+      }, 3000);
+      setBikeModel('');
+      setBikeName('');
+      setBikeCompanyName('');
+      setBikeRegNumber('');
+    } catch (error) {
+      console.error('Error adding bike:', error);
+      setShowErrorModal(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -224,6 +254,7 @@ const AddBikes = () => {
                     : COLORS.gray,
                 },
               ]}
+              onPress={handleAddBike}
               disabled={!isButtonEnabled}>
               <Text style={styles.submitText}>
                 {loading ? (
@@ -267,7 +298,7 @@ const styles = StyleSheet.create({
   formContainer: {
     marginTop: height * 0.08,
     marginHorizontal: width * 0.05,
-    gap: 35,
+    gap: height * 0.06,
   },
 
   label: {
@@ -307,9 +338,11 @@ const styles = StyleSheet.create({
   },
 
   errorText: {
+    position: 'absolute',
+    bottom: -25,
+    fontSize: width * 0.04,
     color: COLORS.errorColor,
     fontFamily: FONTS.semiBold,
-    fontSize: width * 0.035,
-    left: width * 0.015,
+    paddingHorizontal: 5,
   },
 });

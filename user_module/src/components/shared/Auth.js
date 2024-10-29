@@ -35,7 +35,6 @@ const Auth = () => {
     GoogleSignin.configure({
       webClientId:
         '942886347816-2bl6f37r0ko3enu4j1t67j32is43qln3.apps.googleusercontent.com',
-      offlineAccess: true,
     });
   }, []);
 
@@ -95,7 +94,7 @@ const Auth = () => {
         setShowErrorModal(false);
       }, 3000);
     } finally {
-      setGoogleLoading(false); 
+      setGoogleLoading(false);
     }
   };
 

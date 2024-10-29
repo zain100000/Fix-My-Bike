@@ -480,8 +480,7 @@ const styles = StyleSheet.create({
 
   cardContainer: {
     alignItems: 'center',
-    paddingVertical: height * 0.02,
-    gap: height * 0.005,
+    paddingVertical: height * 0.01,
   },
 
   imgContainer: {
@@ -519,7 +518,7 @@ const styles = StyleSheet.create({
 
   infoContainer: {
     alignItems: 'center',
-    gap: height * 0.05,
+    gap: height * 0.04,
   },
 
   label: {

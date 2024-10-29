@@ -73,7 +73,7 @@ const Bike_Detailed = ({route}) => {
                   color: colorScheme === 'dark' ? COLORS.white : COLORS.dark,
                 },
               ]}
-              value={`${bike.bike_model}`}
+              value={`${bike.bikeModel}`}
               editable={false}
             />
           </View>
@@ -93,7 +93,7 @@ const Bike_Detailed = ({route}) => {
                   color: colorScheme === 'dark' ? COLORS.white : COLORS.dark,
                 },
               ]}
-              value={`${bike.bike_name}`}
+              value={`${bike.bikeName}`}
               editable={false}
             />
           </View>
@@ -113,7 +113,7 @@ const Bike_Detailed = ({route}) => {
                   color: colorScheme === 'dark' ? COLORS.white : COLORS.dark,
                 },
               ]}
-              value={`${bike.bike_company_name}`}
+              value={`${bike.bikeCompanyName}`}
               editable={false}
             />
           </View>
@@ -133,7 +133,7 @@ const Bike_Detailed = ({route}) => {
                   color: colorScheme === 'dark' ? COLORS.white : COLORS.dark,
                 },
               ]}
-              value={`${bike.bike_registration_number}`}
+              value={`${bike.bikeRegNumber}`}
               editable={false}
             />
           </View>

@@ -181,11 +181,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: width * 0.02,
-    width: width * 0.4,
   },
 
   greeting: {
-    fontSize: width * 0.055,
+    fontSize: width * 0.045,
     fontFamily: FONTS.semiBold,
   },
 

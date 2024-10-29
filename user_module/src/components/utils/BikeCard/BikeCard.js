@@ -30,8 +30,8 @@ const BikeCard = ({bike, onDelete}) => {
     setShowDeleteBikeModal(true);
   };
 
-  const handleDeleteBike = async bikeId => {
-    await onDelete(bikeId);
+  const handleDeleteBike = async () => {
+    await onDelete(bike.id);
     setShowDeleteBikeModal(false);
   };
 
@@ -80,7 +80,7 @@ const BikeCard = ({bike, onDelete}) => {
                     color: colorScheme === 'dark' ? COLORS.white : COLORS.dark,
                   },
                 ]}>
-                {bike.bike_name}
+                {bike.bikeName}
               </Text>
             </View>
           </View>
@@ -96,7 +96,7 @@ const BikeCard = ({bike, onDelete}) => {
         </View>
         {expanded && (
           <View style={styles.infoContainer}>
-            <View style={[styles.bikeDetails]}>
+            <View style={styles.bikeDetails}>
               <Text
                 style={[
                   styles.bikeInfo,
@@ -104,7 +104,7 @@ const BikeCard = ({bike, onDelete}) => {
                     color: colorScheme === 'dark' ? COLORS.white : COLORS.dark,
                   },
                 ]}>
-                Company: {bike.bike_company_name}
+                Company: {bike.bikeCompanyName}
               </Text>
               <Text
                 style={[
@@ -113,7 +113,7 @@ const BikeCard = ({bike, onDelete}) => {
                     color: colorScheme === 'dark' ? COLORS.white : COLORS.dark,
                   },
                 ]}>
-                Model: {bike.bike_model}
+                Model: {bike.bikeModel}
               </Text>
               <Text
                 style={[
@@ -122,7 +122,7 @@ const BikeCard = ({bike, onDelete}) => {
                     color: colorScheme === 'dark' ? COLORS.white : COLORS.dark,
                   },
                 ]}>
-                Registration Number: {bike.bike_registration_number}
+                Registration: {bike.bikeRegNumber}
               </Text>
             </View>
 
@@ -156,7 +156,7 @@ const BikeCard = ({bike, onDelete}) => {
         onClose={() => setShowDeleteBikeModal(false)}
         title="Delete Bike!"
         description="Are you sure you want to delete this bike?"
-        bikeId={bike._id}
+        bikeId={bike.id}
         onDelete={handleDeleteBike}
       />
     </SafeAreaView>
@@ -179,8 +179,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
-    width: width * 0.9,
-    gap: 20,
+    width: width * 0.92,
   },
 
   vehicleContainer: {
@@ -201,12 +200,13 @@ const styles = StyleSheet.create({
 
   iconContainer: {
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     gap: 20,
   },
 
   infoContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 
   bikeDetails: {

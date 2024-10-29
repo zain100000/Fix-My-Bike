@@ -215,12 +215,12 @@ const styles = StyleSheet.create({
 
   headerImage: {
     width: '100%',
-    height: height * 0.55,
+    height: height * 0.5,
     resizeMode: 'cover',
   },
 
   textContainer: {
-    top: height * 0.09,
+    top: height * 0.12,
   },
 
   title: {
