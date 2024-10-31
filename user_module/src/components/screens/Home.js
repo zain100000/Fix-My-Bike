@@ -10,13 +10,15 @@ import {
   useColorScheme,
   TouchableOpacity,
   Image,
+  FlatList,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {COLORS, FONTS} from '../constants/Constants';
-import Feather from 'react-native-vector-icons/Feather';
 import imgPlaceHolder from '../../assets/placeholders/default-avatar.png';
+import ServicesContainer from '../utils/ServicesCard/ServicesContainer';
+import Feather from 'react-native-vector-icons/Feather';
 
 const {width, height} = Dimensions.get('window');
 
@@ -58,6 +60,135 @@ const Home = () => {
 
     loadData();
   }, [authInstance]);
+
+  const services = [
+    {
+      id: '1',
+      service_image:
+        'https://cdn.dealerspike.com/imglib/seo/stock/ps/ps_bike_mechanic_a.jpg',
+      service_name: 'Basic Inspection and Safety Checks',
+      service_description:
+        'Quick inspection of essential parts, fluid levels, and tire pressure adjustment.',
+      service_price: '200',
+    },
+    {
+      id: '2',
+      service_image:
+        'https://th.bing.com/th/id/OIP.B0ZtnRQW2NKOZ7mpJ-SNWgHaE8?pid=ImgDet&rs=1',
+      service_name: 'Battery and Electrical System Check',
+      service_description:
+        'Battery testing and replacement, terminal cleaning, headlight, taillight, and indicator check.',
+      service_price: '250',
+    },
+    {
+      id: '3',
+      service_image:
+        'https://th.bing.com/th/id/OIP.6iqWXAViNSW2OdLoF77IfAHaEK?pid=ImgDet&rs=1',
+      service_name: 'Cleaning and Detailing Services',
+      service_description:
+        'Full bike wash, detailing, polishing, waxing, rust removal, and prevention.',
+      service_price: '300',
+    },
+    {
+      id: '4',
+      service_image:
+        'https://th.bing.com/th/id/OIP.VXHQEv-Xc5R7lgFf11tslwHaE8?pid=ImgDet&rs=1',
+      service_name: 'Pre-ride Inspection for Long Trips',
+      service_description:
+        'Comprehensive check for long journeys, including fluids, brakes, and lighting.',
+      service_price: '300',
+    },
+    {
+      id: '5',
+      service_image:
+        'https://th.bing.com/th/id/OIP.YX56KlRlvTL9PPS6vj9CEwHaEK?pid=ImgDet&rs=1',
+      service_name: 'Chain and Sprocket Maintenance',
+      service_description:
+        'Chain cleaning, lubrication, tension adjustment, and sprocket inspection.',
+      service_price: '300',
+    },
+    {
+      id: '6',
+      service_image:
+        'https://th.bing.com/th/id/OIP.CxsxHKURvO7H0_fzQhCnLwHaE8?pid=ImgDet&rs=1',
+      service_name: 'Fuel System Services',
+      service_description:
+        'Fuel filter replacement, carburetor cleaning, fuel line inspection for leaks or clogs.',
+      service_price: '400',
+    },
+    {
+      id: '7',
+      service_image:
+        'https://th.bing.com/th/id/OIP.HbyFNx3t6Q1G1EqAkGiYlgHaEK?pid=ImgDet&rs=1',
+      service_name: 'Exhaust System Check',
+      service_description:
+        'Exhaust pipe inspection for leaks, cleaning, rust prevention, muffler servicing.',
+      service_price: '350',
+    },
+    {
+      id: '8',
+      service_image:
+        'https://th.bing.com/th/id/OIP.2YZjkYJ1EghXIfybOX3pzQHaEK?rs=1&pid=ImgDetMain',
+      service_name: 'Engine Maintenance',
+      service_description:
+        'Oil change, oil filter replacement, spark plug replacement, air filter cleaning.',
+      service_price: '600',
+    },
+    {
+      id: '9',
+      service_image:
+        'https://th.bing.com/th/id/OIP.iSSb2EXFkzfmD5XoqQrHMQHaE8?rs=1&pid=ImgDetMain',
+      service_name: 'Tire and Wheel Services',
+      service_description:
+        'Tire replacement and balancing, puncture repair, tread depth check, wheel alignment.',
+      service_price: '500',
+    },
+    {
+      id: '10',
+      service_image:
+        'https://th.bing.com/th/id/OIP.gnD2YMPiYqIZc3LtltVg5AHaEK?pid=ImgDet&rs=1',
+      service_name: 'Cooling System Maintenance',
+      service_description:
+        'Radiator and coolant check, coolant flush, and hose inspection.',
+      service_price: '450',
+    },
+    {
+      id: '11',
+      service_image:
+        'https://th.bing.com/th/id/OIP.L9uy0bOZ21aMgMeYHKKvKQHaE8?pid=ImgDet&rs=1',
+      service_name: 'Suspension Services',
+      service_description:
+        'Front and rear suspension adjustment, fork oil change, shock absorber inspection.',
+      service_price: '800',
+    },
+    {
+      id: '12',
+      service_image:
+        'https://th.bing.com/th/id/OIP.x_iCGmAANdvWgnjcBu7X-gHaE8?pid=ImgDet&rs=1',
+      service_name: 'Comprehensive Diagnostic Check',
+      service_description:
+        'Full diagnostics for engine, brakes, exhaust, and electrical systems.',
+      service_price: '1000',
+    },
+    {
+      id: '13',
+      service_image:
+        'https://th.bing.com/th/id/OIP.Q7aZyfUSIA8i_dZZxoHE4QHaEK?pid=ImgDet&rs=1',
+      service_name: 'Customization and Upgrades',
+      service_description:
+        'Accessory installation, performance upgrades, paint and decal services.',
+      service_price: '1500',
+    },
+    {
+      id: '14',
+      service_image:
+        'https://th.bing.com/th/id/OIP.yG8kdL2Vv8Vp-4Kr4N9uzwHaE8?pid=ImgDet&rs=1',
+      service_name: 'Winterization and Storage Preparation',
+      service_description:
+        'Fuel stabilizer application, battery storage prep, and full cover for off-season storage.',
+      service_price: '550',
+    },
+  ];
 
   return (
     <SafeAreaView
@@ -125,7 +256,7 @@ const Home = () => {
                 styles.searchInputField,
                 {color: colorScheme === 'dark' ? COLORS.white : COLORS.dark},
               ]}
-              placeholder="Search!"
+              placeholder="Search services here!"
               placeholderTextColor={
                 colorScheme === 'dark' ? COLORS.gray : COLORS.lightGray
               }
@@ -135,13 +266,25 @@ const Home = () => {
           </View>
         </View>
 
-        <View style={styles.homeContainer}>
+        <View style={styles.serviceContainer}>
           <Text
             style={[
-              styles.home,
+              styles.services,
               {color: colorScheme === 'dark' ? COLORS.white : COLORS.dark},
             ]}>
-            All services will be shown here!
+            <FlatList
+              data={services}
+              keyExtractor={item => item.id}
+              renderItem={({item}) => (
+                <ServicesContainer
+                  service_image={item.service_image}
+                  service_name={item.service_name}
+                  service_description={item.service_description}
+                  service_price={item.service_price}
+                />
+              )}
+              contentContainerStyle={styles.serviceContainer}
+            />
           </Text>
         </View>
       </ScrollView>
@@ -220,6 +363,16 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
 
+  homeContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  home: {
+    fontFamily: FONTS.semiBold,
+    fontSize: width * 0.05,
+  },
+
   searchContainer: {
     paddingHorizontal: width * 0.03,
     paddingVertical: height * 0.03,
@@ -243,13 +396,10 @@ const styles = StyleSheet.create({
     marginRight: width * 0.01,
   },
 
-  homeContainer: {
+  serviceContainer: {
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  home: {
-    fontFamily: FONTS.semiBold,
-    fontSize: width * 0.05,
+    marginTop: height * 0.01,
+    marginLeft: height * 0.01,
   },
 });

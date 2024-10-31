@@ -14,7 +14,7 @@ import {COLORS, FONTS} from '../../../constants/Constants';
 
 const {width, height} = Dimensions.get('window');
 
-const Bookings = () => {
+const MyBookings = () => {
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
 
@@ -74,7 +74,7 @@ const Bookings = () => {
   );
 };
 
-export default Bookings;
+export default MyBookings;
 
 const styles = StyleSheet.create({
   primaryContainer: {
