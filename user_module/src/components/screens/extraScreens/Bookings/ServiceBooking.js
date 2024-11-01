@@ -18,6 +18,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {COLORS, FONTS} from '../../../constants/Constants';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import CustomModal from '../../../utils/Modals/CustomModal';
 
 const {width, height} = Dimensions.get('window');
 
@@ -47,6 +48,8 @@ const ServiceBookingDetails = () => {
   const [bikeRegNumberError, setBikeRegNumberError] = useState('');
 
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
@@ -229,7 +232,7 @@ const ServiceBookingDetails = () => {
         const user = authInstance.currentUser;
         if (user) {
           await firestore()
-            .collection('booking_services')
+            .collection('service_booking')
             .add({
               userId: user.uid,
               serviceName: service_name,
@@ -251,10 +254,20 @@ const ServiceBookingDetails = () => {
               totalPrice: totalPrice,
               timestamp: Date.now(),
             });
-          alert('Booking submitted successfully!');
+
+          setShowSuccessModal(true);
+          setTimeout(() => {
+            setShowSuccessModal(false);
+          }, 3000);
         }
       } catch (error) {
         console.error('Error submitting booking:', error);
+        setTimeout(() => {
+          setShowErrorModal(true);
+          setTimeout(() => {
+            setShowErrorModal(false);
+          }, 1000);
+        }, 1000);
       } finally {
         setLoading(false);
       }
@@ -655,6 +668,7 @@ const ServiceBookingDetails = () => {
 
           <View style={styles.btnContainer}>
             <TouchableOpacity
+              onPress={handleServiceBooking}
               style={[
                 styles.bookBtn,
                 {
@@ -675,6 +689,22 @@ const ServiceBookingDetails = () => {
           </View>
         </View>
       </ScrollView>
+
+      <CustomModal
+        visible={showSuccessModal}
+        title="Success!"
+        description="Your service has been booked Successfully!"
+        animationSource={require('../../../../assets/animations/success.json')}
+        onClose={() => setShowSuccessModal(false)}
+      />
+
+      <CustomModal
+        visible={showErrorModal}
+        title="Failure!"
+        description="Error occured during booking!"
+        animationSource={require('../../../../assets/animations/error.json')}
+        onClose={() => setShowErrorModal(false)}
+      />
     </SafeAreaView>
   );
 };
