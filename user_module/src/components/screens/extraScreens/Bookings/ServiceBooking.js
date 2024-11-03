@@ -33,6 +33,8 @@ const ServiceBookingDetails = () => {
   const [address, setAddress] = useState('');
   const [comments, setComments] = useState('');
   const [bikeModel, setBikeModel] = useState('');
+  const [bikeName, setBikeName] = useState('');
+  const [bikeCompanyName, setBikeCompanyName] = useState('');
   const [bikeRegNumber, setBikeRegNumber] = useState('');
   const [chainLubricants, setChainLubricants] = useState('');
   const [tirePressure, setTirePressure] = useState('');
@@ -77,41 +79,10 @@ const ServiceBookingDetails = () => {
     }
   };
 
-  const fetchBikes = async () => {
-    setLoading(true);
-    try {
-      const user = auth().currentUser;
-      if (user) {
-        const snapshot = await firestore()
-          .collection('user_bikes')
-          .where('userId', '==', user.uid)
-          .get();
-
-        const userBikes = snapshot.docs.map(doc => {
-          const {bikeModel, bikeRegNumber} = doc.data();
-          return {
-            id: doc.id,
-            bikeModel,
-            bikeRegNumber,
-          };
-        });
-
-        if (userBikes.length > 0) {
-          setBikeModel(userBikes[0].bikeModel);
-          setBikeRegNumber(userBikes[0].bikeRegNumber);
-        }
-      }
-    } catch (error) {
-      console.log('Error fetching bikes:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      await Promise.all([fetchUserData(), fetchBikes()]);
+      await Promise.all([fetchUserData()]);
       setLoading(false);
     };
 
@@ -242,6 +213,8 @@ const ServiceBookingDetails = () => {
               address: address,
               comments: comments,
               bikeModel: bikeModel,
+              bikeName: bikeName,
+              bikeCompanyName: bikeCompanyName,
               bikeRegNumber: bikeRegNumber,
               additionalServices: [
                 ...(chainLubricants ? ['Chain Lubrication'] : []),
@@ -467,7 +440,51 @@ const ServiceBookingDetails = () => {
                 colorScheme === 'dark' ? COLORS.white : COLORS.dark
               }
               value={bikeModel}
-              editable={false}
+              onChangeText={setBikeModel}
+            />
+          </View>
+
+          <View style={styles.inputFieldContainer}>
+            <Text
+              style={[
+                styles.label,
+                {color: colorScheme === 'dark' ? COLORS.white : COLORS.dark},
+              ]}>
+              Bike Name
+            </Text>
+            <TextInput
+              style={[
+                styles.inputField,
+                {color: colorScheme === 'dark' ? COLORS.white : COLORS.dark},
+              ]}
+              placeholder="Enter Bike Name"
+              placeholderTextColor={
+                colorScheme === 'dark' ? COLORS.white : COLORS.dark
+              }
+              value={bikeName}
+              onChangeText={setBikeName}
+            />
+          </View>
+
+          <View style={styles.inputFieldContainer}>
+            <Text
+              style={[
+                styles.label,
+                {color: colorScheme === 'dark' ? COLORS.white : COLORS.dark},
+              ]}>
+              Bike Company Name
+            </Text>
+            <TextInput
+              style={[
+                styles.inputField,
+                {color: colorScheme === 'dark' ? COLORS.white : COLORS.dark},
+              ]}
+              placeholder="Enter Bike Company Name"
+              placeholderTextColor={
+                colorScheme === 'dark' ? COLORS.white : COLORS.dark
+              }
+              value={bikeCompanyName}
+              onChangeText={setBikeCompanyName}
             />
           </View>
 

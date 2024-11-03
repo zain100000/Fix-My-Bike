@@ -10,8 +10,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {COLORS, FONTS} from '../constants/Constants';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
-import Shop from '../screens/Shop';
-import Wallet from '../screens/Wallet';
 
 const Tab = createBottomTabNavigator();
 const {width, height} = Dimensions.get('window');
@@ -47,52 +45,6 @@ const BottomNavigator = () => {
                   focused
                     ? require('../../assets/navigatorIcons/home-fill.png')
                     : require('../../assets/navigatorIcons/home.png')
-                }
-                style={[
-                  styles.image,
-                  {tintColor: focused ? COLORS.primary : COLORS.lightGray},
-                ]}
-              />
-            </View>
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Shop"
-        component={Shop}
-        options={{
-          tabBarLabel: 'Shop',
-          tabBarIcon: ({focused}) => (
-            <View style={styles.imageContainer}>
-              <Image
-                source={
-                  focused
-                    ? require('../../assets/navigatorIcons/shop-fill.png')
-                    : require('../../assets/navigatorIcons/shop.png')
-                }
-                style={[
-                  styles.image,
-                  {tintColor: focused ? COLORS.primary : COLORS.lightGray},
-                ]}
-              />
-            </View>
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Wallet"
-        component={Wallet}
-        options={{
-          tabBarLabel: 'Wallet',
-          tabBarIcon: ({focused}) => (
-            <View style={styles.imageContainer}>
-              <Image
-                source={
-                  focused
-                    ? require('../../assets/navigatorIcons/wallet-fill.png')
-                    : require('../../assets/navigatorIcons/wallet.png')
                 }
                 style={[
                   styles.image,

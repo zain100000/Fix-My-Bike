@@ -16,11 +16,6 @@ import BottomNavigator from './src/components/navigation/BottomNavigator';
 import DetailProfileScreen from './src/components/screens/extraScreens/ProfileUpdate/DetailProfileScreen';
 import ChangePassword from './src/components/shared/ChangePassword';
 import CustomerCare from './src/components/screens/extraScreens/CustomerCare/CustomerCare';
-import AddBikes from './src/components/screens/extraScreens/BikeManagement/AddBikes';
-import MyBikes from './src/components/screens/extraScreens/BikeManagement/MyBikes';
-import TopNavigator from './src/components/navigation/TopNavigator';
-import BikeDetailed from './src/components/screens/extraScreens/BikeManagement/BikeDetailed';
-import MyBookings from './src/components/screens/extraScreens/Bookings/MyBookings';
 import ServiceBooking from './src/components/screens/extraScreens/Bookings/ServiceBooking';
 
 const Stack = createNativeStackNavigator();
@@ -103,36 +98,6 @@ const App = () => {
           {props => (
             <CustomerCare {...props} setStatusBarColor={setStatusBarColor} />
           )}
-        </Stack.Screen>       
-
-        <Stack.Screen name="My_Bikes">
-          {props => (
-            <TopNavigator {...props} setStatusBarColor={setStatusBarColor} />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="Add_Bikes">
-          {props => (
-            <AddBikes {...props} setStatusBarColor={setStatusBarColor} />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="Get_Bikes">
-          {props => (
-            <MyBikes {...props} setStatusBarColor={setStatusBarColor} />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="Bike_Detailed">
-          {props => (
-            <BikeDetailed {...props} setStatusBarColor={setStatusBarColor} />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="My_Bookings">
-          {props => (
-            <MyBookings {...props} setStatusBarColor={setStatusBarColor} />
-          )}
         </Stack.Screen>
 
         <Stack.Screen name="Service_Booking">
@@ -140,7 +105,6 @@ const App = () => {
             <ServiceBooking {...props} setStatusBarColor={setStatusBarColor} />
           )}
         </Stack.Screen>
-
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -10,9 +10,10 @@ import {
   useColorScheme,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
   FlatList,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {COLORS, FONTS} from '../constants/Constants';
@@ -25,8 +26,10 @@ const {width, height} = Dimensions.get('window');
 const Home = () => {
   const [image, setImage] = useState('');
   const [fullName, setFullName] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [searchBorderColor, setSearchBorderColor] = useState(COLORS.lightGray);
   const [loading, setLoading] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const authInstance = auth();
@@ -51,15 +54,17 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      await Promise.all([fetchUserData()]);
-      setLoading(false);
-    };
+  useFocusEffect(
+    useCallback(() => {
+      const loadData = async () => {
+        setLoading(true);
+        await fetchUserData();
+        setLoading(false);
+      };
 
-    loadData();
-  }, [authInstance]);
+      loadData();
+    }, []),
+  );
 
   const services = [
     {
@@ -74,7 +79,7 @@ const Home = () => {
     {
       id: '2',
       service_image:
-        'https://th.bing.com/th/id/OIP.B0ZtnRQW2NKOZ7mpJ-SNWgHaE8?pid=ImgDet&rs=1',
+        'https://th.bing.com/th/id/R.2a777d5b415a819f3ac3542922df3df1?rik=sc1oKFyTje2e9A&pid=ImgRaw&r=0',
       service_name: 'Battery and Electrical System Check',
       service_description:
         'Battery testing and replacement, terminal cleaning, headlight, taillight, and indicator check.',
@@ -83,7 +88,7 @@ const Home = () => {
     {
       id: '3',
       service_image:
-        'https://th.bing.com/th/id/OIP.6iqWXAViNSW2OdLoF77IfAHaEK?pid=ImgDet&rs=1',
+        'https://th.bing.com/th/id/OIP.JR8YkKNYvBdN7kpm4R_xqQHaEK?rs=1&pid=ImgDetMain',
       service_name: 'Cleaning and Detailing Services',
       service_description:
         'Full bike wash, detailing, polishing, waxing, rust removal, and prevention.',
@@ -92,7 +97,7 @@ const Home = () => {
     {
       id: '4',
       service_image:
-        'https://th.bing.com/th/id/OIP.VXHQEv-Xc5R7lgFf11tslwHaE8?pid=ImgDet&rs=1',
+        'https://th.bing.com/th/id/R.f4362e6fb570750fc1e8d1aba6d0be8b?rik=wL6028BFJxJ2Vw&pid=ImgRaw&r=0&sres=1&sresct=1',
       service_name: 'Pre-ride Inspection for Long Trips',
       service_description:
         'Comprehensive check for long journeys, including fluids, brakes, and lighting.',
@@ -101,7 +106,7 @@ const Home = () => {
     {
       id: '5',
       service_image:
-        'https://th.bing.com/th/id/OIP.YX56KlRlvTL9PPS6vj9CEwHaEK?pid=ImgDet&rs=1',
+        'https://th.bing.com/th/id/OIP.DT5JvbSS2XEp46EAgEImkQHaE6?rs=1&pid=ImgDetMain',
       service_name: 'Chain and Sprocket Maintenance',
       service_description:
         'Chain cleaning, lubrication, tension adjustment, and sprocket inspection.',
@@ -110,7 +115,7 @@ const Home = () => {
     {
       id: '6',
       service_image:
-        'https://th.bing.com/th/id/OIP.CxsxHKURvO7H0_fzQhCnLwHaE8?pid=ImgDet&rs=1',
+        'https://th.bing.com/th/id/R.30ccb893250467820b3a0816c7a5324d?rik=te4wHb5Hez4yzg&pid=ImgRaw&r=0',
       service_name: 'Fuel System Services',
       service_description:
         'Fuel filter replacement, carburetor cleaning, fuel line inspection for leaks or clogs.',
@@ -119,7 +124,7 @@ const Home = () => {
     {
       id: '7',
       service_image:
-        'https://th.bing.com/th/id/OIP.HbyFNx3t6Q1G1EqAkGiYlgHaEK?pid=ImgDet&rs=1',
+        'https://motoxtasy.com/wp-content/uploads/2023/07/Overheating-Exhaust-System.jpg',
       service_name: 'Exhaust System Check',
       service_description:
         'Exhaust pipe inspection for leaks, cleaning, rust prevention, muffler servicing.',
@@ -146,7 +151,7 @@ const Home = () => {
     {
       id: '10',
       service_image:
-        'https://th.bing.com/th/id/OIP.gnD2YMPiYqIZc3LtltVg5AHaEK?pid=ImgDet&rs=1',
+        'https://thumbs.dreamstime.com/b/motorbike-mechanic-replacing-cooling-radiator-replacement-radiator-maintenance-motorbike-mechanic-replacing-cooling-154095399.jpg',
       service_name: 'Cooling System Maintenance',
       service_description:
         'Radiator and coolant check, coolant flush, and hose inspection.',
@@ -155,7 +160,7 @@ const Home = () => {
     {
       id: '11',
       service_image:
-        'https://th.bing.com/th/id/OIP.L9uy0bOZ21aMgMeYHKKvKQHaE8?pid=ImgDet&rs=1',
+        'https://th.bing.com/th/id/OIP.ToBKyziCrwl5w02R3h0mrgHaE5?rs=1&pid=ImgDetMain',
       service_name: 'Suspension Services',
       service_description:
         'Front and rear suspension adjustment, fork oil change, shock absorber inspection.',
@@ -164,7 +169,7 @@ const Home = () => {
     {
       id: '12',
       service_image:
-        'https://th.bing.com/th/id/OIP.x_iCGmAANdvWgnjcBu7X-gHaE8?pid=ImgDet&rs=1',
+        'https://th.bing.com/th/id/OIP.7_xsLQ5V0sm4zZI93GwdIQHaFi?rs=1&pid=ImgDetMain',
       service_name: 'Comprehensive Diagnostic Check',
       service_description:
         'Full diagnostics for engine, brakes, exhaust, and electrical systems.',
@@ -173,7 +178,7 @@ const Home = () => {
     {
       id: '13',
       service_image:
-        'https://th.bing.com/th/id/OIP.Q7aZyfUSIA8i_dZZxoHE4QHaEK?pid=ImgDet&rs=1',
+        'https://th.bing.com/th/id/OIP.Y59CgLVJSoFNM3D6OEzumQHaD4?rs=1&pid=ImgDetMain',
       service_name: 'Customization and Upgrades',
       service_description:
         'Accessory installation, performance upgrades, paint and decal services.',
@@ -182,13 +187,23 @@ const Home = () => {
     {
       id: '14',
       service_image:
-        'https://th.bing.com/th/id/OIP.yG8kdL2Vv8Vp-4Kr4N9uzwHaE8?pid=ImgDet&rs=1',
+        'https://th.bing.com/th/id/R.7a88474dcfc940971ae72abf742f6d00?rik=0Aiexy0aFKgo8w&riu=http%3a%2f%2fwww.johnmason.com%2fwp-content%2fuploads%2f2011%2f06%2fmotorbike-004.jpg&ehk=aFTtFonUMU2Ag4OyLjB2eyOxtbRRAjv0N5j8joENbgk%3d&risl=&pid=ImgRaw&r=0',
       service_name: 'Winterization and Storage Preparation',
       service_description:
         'Fuel stabilizer application, battery storage prep, and full cover for off-season storage.',
       service_price: '550',
     },
   ];
+
+  const filteredServices = services.filter(services =>
+    services.service_name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  const handleSearch = text => {
+    setSearchQuery(text);
+    setIsSearching(true);
+    setTimeout(() => setIsSearching(false), 500);
+  };
 
   return (
     <SafeAreaView
@@ -262,18 +277,23 @@ const Home = () => {
               }
               onFocus={() => setSearchBorderColor(COLORS.primary)}
               onBlur={() => setSearchBorderColor(COLORS.lightGray)}
+              value={searchQuery}
+              onChangeText={handleSearch}
             />
           </View>
         </View>
 
         <View style={styles.serviceContainer}>
-          <Text
-            style={[
-              styles.services,
-              {color: colorScheme === 'dark' ? COLORS.white : COLORS.dark},
-            ]}>
+          {isSearching ? (
+            <View style={styles.loaderContainer}>
+              <ActivityIndicator
+                size="large"
+                color={colorScheme === 'dark' ? COLORS.white : COLORS.darkColor}
+              />
+            </View>
+          ) : filteredServices.length > 0 ? (
             <FlatList
-              data={services}
+              data={filteredServices}
               keyExtractor={item => item.id}
               renderItem={({item}) => (
                 <ServicesContainer
@@ -285,7 +305,19 @@ const Home = () => {
               )}
               contentContainerStyle={styles.serviceContainer}
             />
-          </Text>
+          ) : (
+            <View style={styles.noServiceContainer}>
+              <Text
+                style={[
+                  styles.noServiceText,
+                  {
+                    color: colorScheme === 'dark' ? COLORS.white : COLORS.dark,
+                  },
+                ]}>
+                No Service Available!
+              </Text>
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -401,5 +433,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: height * 0.01,
     marginLeft: height * 0.01,
+  },
+
+  noServiceContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: height * 0.25,
+  },
+
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: height * 0.25,
+  },
+
+  noServiceText: {
+    fontFamily: FONTS.semiBold,
+    fontSize: width * 0.05,
+    textAlign: 'center',
   },
 });

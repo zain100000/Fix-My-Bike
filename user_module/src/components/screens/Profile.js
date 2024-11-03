@@ -141,59 +141,6 @@ const Profile = () => {
 
           <View
             style={[
-              styles.vehicleCard,
-              {
-                backgroundColor:
-                  colorScheme === 'dark' ? COLORS.lightDark : COLORS.white,
-              },
-            ]}>
-            <View style={styles.vehicleContainer}>
-              <View style={styles.leftContainer}>
-                <View style={styles.iconContainer}>
-                  <MaterialCommunityIcons
-                    name="motorbike"
-                    size={25}
-                    style={[
-                      styles.icon,
-                      {
-                        color:
-                          colorScheme === 'dark'
-                            ? COLORS.white
-                            : COLORS.primary,
-                      },
-                    ]}
-                  />
-                </View>
-                <View style={styles.textContainer}>
-                  <Text
-                    style={{
-                      color:
-                        colorScheme === 'dark' ? COLORS.white : COLORS.dark,
-                      fontSize: width * 0.045,
-                      marginLeft: 10,
-                    }}>
-                    Bike Management:{' '}
-                  </Text>
-                </View>
-              </View>
-
-              <View style={styles.rightContainer}>
-                <View style={styles.iconContainer}>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('My_Bikes')}>
-                    <Feather
-                      name="chevron-right"
-                      size={30}
-                      color={COLORS.primary}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </View>
-
-          <View
-            style={[
               styles.bookingsCard,
               {
                 backgroundColor:
@@ -521,25 +468,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  vehicleCard: {
-    backgroundColor: COLORS.white,
-    borderRadius: 10,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-    width: width * 0.9,
-    gap: 20,
-  },
-
-  vehicleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-
   bookingsCard: {
     backgroundColor: COLORS.white,
     borderRadius: 10,
@@ -615,9 +543,9 @@ const styles = StyleSheet.create({
   },
 
   deleteContainer: {
-    width: 350,
+    width: width * 0.9,
     alignItems: 'center',
-    padding: height * 0.015,
+    padding: height * 0.01,
     backgroundColor: COLORS.white,
     borderWidth: 2,
     borderColor: COLORS.errorColor,
@@ -633,9 +561,9 @@ const styles = StyleSheet.create({
   },
 
   logoutContainer: {
-    width: 350,
+    width: width * 0.9,
     alignItems: 'center',
-    padding: height * 0.015,
+    padding: height * 0.01,
     backgroundColor: COLORS.primary,
     borderRadius: 10,
   },
