@@ -729,7 +729,7 @@ const ServiceBookingDetails = () => {
         animationSource={require('../../../../assets/animations/error.json')}
         onClose={() => setShowErrorModal(false)}
       />
-    </SafeAreaView> 
+    </SafeAreaView>
   );
 };
 
