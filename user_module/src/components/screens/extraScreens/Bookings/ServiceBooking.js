@@ -226,12 +226,19 @@ const ServiceBookingDetails = () => {
               ],
               totalPrice: totalPrice,
               timestamp: Date.now(),
+              status: 'pending', // Set initial status to 'pending'
             });
 
           setShowSuccessModal(true);
           setTimeout(() => {
             setShowSuccessModal(false);
           }, 3000);
+          setBatteryCleaning('');
+          setChainLubricants('');
+          setHeadLightAdjustment('');
+          setTirePressure('');
+          setBatteryCleaning('');
+          setBreakCheck('');
         }
       } catch (error) {
         console.error('Error submitting booking:', error);
@@ -506,7 +513,7 @@ const ServiceBookingDetails = () => {
                 colorScheme === 'dark' ? COLORS.white : COLORS.dark
               }
               value={bikeRegNumber}
-              editable={false}
+              onChangeText={setBikeRegNumber}
             />
           </View>
 
@@ -722,7 +729,7 @@ const ServiceBookingDetails = () => {
         animationSource={require('../../../../assets/animations/error.json')}
         onClose={() => setShowErrorModal(false)}
       />
-    </SafeAreaView>
+    </SafeAreaView> 
   );
 };
 
